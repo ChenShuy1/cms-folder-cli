@@ -43,7 +43,7 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
     /*
     * --------------------------------------------
     * @name ${folderName} / ${alias}
-    * @desription ${description}
+    * @desription ${description ? description : ''}
     * @author ${author} ${emailprefix ? (`(${emailprefix}@corp.netease.com)`) : ''}
     * --------------------------------------------
     */

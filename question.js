@@ -9,6 +9,7 @@ exports.getInfoQuestion = [
     {
         type: 'list',
         name: 'moduleName',
+        message: 'module name',
         choices: moduleList,
         default: moduleList[0],
         validate(val) {
@@ -37,7 +38,7 @@ exports.question = [
     {
       type: 'input',
       name: 'name',
-      message: 'Folder Name',
+      message: 'folder name',
       default: defaultName,
       filter(val) {
         return val.trim()
@@ -66,8 +67,7 @@ exports.question = [
     }, {
       type: 'input',
       name: 'description',
-      message: 'Folder description',
-      default: 'folder description',
+      message: 'folder description',
       validate (val) {
         return true;
       },
@@ -77,7 +77,7 @@ exports.question = [
     }, {
       type: 'input',
       name: 'author',
-      message: 'Author',
+      message: 'author',
       default: 'author',
       validate (val) {
         return true;
@@ -88,7 +88,7 @@ exports.question = [
     }, {
       type: 'input',
       name: 'emailprefix',
-      message: 'Email prefix',
+      message: 'email prefix',
       default: null,
       validate (val) {
         return true;
