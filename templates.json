@@ -1,22 +1,10 @@
 {
-    "init": {
+    "parent-folder": {
         "place": "chenshy39/cms-template",
         "branch": ""
     },
-    "complete-project": {
-        "place": "Hzy0913/react-template",
-        "branch": "#complete"
-    },
-    "simple-project": {
-        "place": "Hzy0913/react-template",
-        "branch": "#simple"
-    },
-    "first-level-directory": {
-        "place": "Hzy0913/react-template",
-        "branch": ""
-    },
-    "second-level-directory": {
-        "place": "Hzy0913/react-template",
-        "branch": "#simple"
+    "secondary-folder": {
+        "place": "chenshy39/cms-template",
+        "branch": "#secondary-folder"
     }
 }

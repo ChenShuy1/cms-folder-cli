@@ -7,10 +7,36 @@ const fs = require('fs')
 const path = require('path')
 
 const option =  program.parse(process.argv).args[0]
-const defaultName = typeof option === 'string' ? option : 'platform-default-folder'
+const defaultName = typeof option === 'string' ? option : 'defaultfolder'
 const tplList = require(`${__dirname}/../templates`)
+const moduleList = require(`${__dirname}/../modules`)
 const tplLists = Object.keys(tplList) || [];
 const question = [
+  {
+    type: 'list',
+    name: 'moduleName',
+    choices: moduleList,
+    default: moduleList[0],
+    validate(val) {
+      return true;
+    },
+    transformer(val) {
+      return val;
+    }
+  },
+  {
+    type: 'list',
+    name: 'template',
+    message: 'folder template type',
+    choices: tplLists,
+    default: tplLists[0],
+    validate(val) {
+      return true;
+    },
+    transformer(val) {
+      return val;
+    }
+  },
   {
     type: 'input',
     name: 'name',
@@ -29,23 +55,11 @@ const question = [
   }, {
     type: 'input',
     name: 'alias',
-    message: 'folder alias',
+    message: 'alias',
     default: '默认别名',
     filter(val) {
       return val.trim()
     },
-    validate(val) {
-      return true;
-    },
-    transformer(val) {
-      return val;
-    }
-  }, {
-    type: 'list',
-    name: 'template',
-    message: 'folder template',
-    choices: tplLists,
-    default: tplLists[0],
     validate(val) {
       return true;
     },
@@ -67,7 +81,7 @@ const question = [
     type: 'input',
     name: 'author',
     message: 'Author',
-    default: 'folder author',
+    default: 'author',
     validate (val) {
       return true;
     },
@@ -87,8 +101,8 @@ const question = [
     }
   }
 ]
-module.exports = prompt(question).then(({name, alias, template, description, author, emailprefix}) => {
-  const folderName = name;
+module.exports = prompt(question).then(({moduleName, name, alias, template, description, author, emailprefix}) => {
+  const folderName = `${moduleName}-${name}`;
   const templateName = template;
   const gitPlace = tplList[templateName]['place'];
   const gitBranch = tplList[templateName]['branch'];
@@ -99,7 +113,7 @@ module.exports = prompt(question).then(({name, alias, template, description, aut
   const prefixInfomation = `
   /*
   * --------------------------------------------
-  * @name ${name} / ${alias}
+  * @name ${folderName} / ${alias}
   * @desription ${description}
   * @author ${author} ${emailprefix ? (`${emailprefix}@corp.netease.com`) : ''}
   * --------------------------------------------
@@ -131,7 +145,7 @@ module.exports = prompt(question).then(({name, alias, template, description, aut
       spinner.stop();
       console.log(chalk.green('project init successfully!'))
       console.log(`
-        ${chalk.yellow('foldername: ') + chalk.bgWhite.black(`${name}`)}
+        ${chalk.yellow('foldername: ') + chalk.bgWhite.black(`${folderName}`)}
       `);
     } catch(err) {
       spinner.stop();
