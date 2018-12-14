@@ -94,6 +94,8 @@ module.exports = prompt(question).then(({name, alias, template, description, aut
   const gitBranch = tplList[templateName]['branch'];
   const spinner = ora('Downloading please wait...');
   spinner.start();
+
+  // 作者的前缀信息
   const prefixInfomation = `
   /*
   * --------------------------------------------
@@ -109,53 +111,32 @@ module.exports = prompt(question).then(({name, alias, template, description, aut
       console.log(chalk.red(err))
       process.exit()
     }
-    // 读取index文件，插入作者信息
-    fs.readFile(`./${folderName}/index.js`, 'utf8', function(err, data) {
-      if (err) {
-        spinner.stop();
-        console.log(err);
-        return;
-      }
+    
+    try {
+      // 读取index文件，插入作者信息
+      const data = fs.readFileSync(`./${folderName}/index.js`, 'utf8');
       const updatedata = prefixInfomation + data;
-      fs.writeFile(filepath, updatedata, 'utf8', (err) => {
-        // return new Promise((resolve, reject) => {
-        //   if (err) {
-        //     reject(err);
-        //   } else {
-        //     resolve();
-        //   }
-        // })
-      })
-    });
-    // 读取meta文件
-    fs.readFile(`./${folderName}/meta.conf`, 'utf8', function(err, data) {
-      if (err) {
-        spinner.stop();
-        console.log(err);
-        return;
-      }
+      fs.writeFileSync(`./${folderName}/index.js`, updatedata, 'utf8');
 
-      const meta = JSON.parse(data);
+      // 读取meta文件，修改内容
+      let meta = fs.readFileSync(`./${folderName}/meta.conf`, 'utf8');
+      
+      meta = JSON.parse(meta);
       meta.name = name;
       meta.url = name;
       meta.alias = alias;
-      var updatemeta = JSON.stringify(meta, null, 2);
-      fs.writeFile(`./${folderName}/meta.conf`, updatemeta, 'utf8', (err) => {
-          if(err) {
-            spinner.stop();
-            console.error(err);
-            return;
-          } else {
-            spinner.stop();
-            console.log(chalk.green('project init successfully!'))
-            console.log(`
-              ${chalk.bgWhite.black('   Run Application  ')}
-              ${chalk.yellow(`cd ${name}`)}
-              ${chalk.yellow('npm install')}
-              ${chalk.yellow('npm start')}
-            `);
-          }
-      });
-    });
+      const updatemeta = JSON.stringify(meta, null, 2);
+      fs.writeFileSync(`./${folderName}/meta.conf`, updatemeta, 'utf8');
+
+      spinner.stop();
+      console.log(chalk.green('project init successfully!'))
+      console.log(`
+        ${chalk.yellow('foldername: ') + chalk.bgWhite.black(`${name}`)}
+      `);
+    } catch(err) {
+      spinner.stop();
+      console.log(err);
+      return;
+    }
   });
 });
