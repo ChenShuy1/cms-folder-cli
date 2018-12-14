@@ -3,7 +3,7 @@
 ### installation
 npm包还未发布  
 ### Usage
-```
+```js
 cms init
 > module name // 选择模块类型
 > folder template type // 模块模板类型
