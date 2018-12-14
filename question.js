@@ -42,18 +42,9 @@ exports.question = [
       filter(val) {
         return val.trim()
       },
-      async validate( input ) {
-        // 下面这行代码用于通知异步任务
-        const done = this.async();
-        
-        if (!(input.trim().split(" ")).length === 1) {
-          done('文件名不允许出现空格');
-          return;
-        }
-        if ( await fs.exists(`${process.cwd()}/${input}`) ) {
-          done( '该文件夹已经存在！' );
-        }
-        done( null, true );
+      validate( input ) {
+        const validate = (input.trim().split(" ")).length === 1;
+        return validate || ('文件名不允许出现空格');
       },
       transformer(val) {
         return val;
@@ -96,7 +87,7 @@ exports.question = [
       }
     }, {
       type: 'input',
-      name: 'email',
+      name: 'emailprefix',
       message: 'Email prefix',
       default: null,
       validate (val) {

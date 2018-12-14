@@ -38,19 +38,24 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
     const templateName = template;
     const gitPlace = tplList[templateName]['place'];
     const gitBranch = tplList[templateName]['branch'];
-    const spinner = ora('Downloading please wait...');
-    spinner.start();
     // 作者的前缀信息
     const prefixInfomation = `
     /*
     * --------------------------------------------
     * @name ${folderName} / ${alias}
     * @desription ${description}
-    * @author ${author} ${emailprefix ? (`${emailprefix}@corp.netease.com`) : ''}
+    * @author ${author} ${emailprefix ? (`(${emailprefix}@corp.netease.com)`) : ''}
     * --------------------------------------------
     */
 
 `;
+    // 判断文件夹是否存在
+    if (fs.existsSync(`${process.cwd()}/${folderName}`)) {
+      console.log(chalk.bold.red('文件夹已经存在！'));
+      process.exit()
+    }
+    const spinner = ora('Downloading please wait...');
+    spinner.start();
     download(`${gitPlace}${gitBranch}`, `./${folderName}`, (err) => {
       if (err) {
         console.log(chalk.red(err))
@@ -86,57 +91,3 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
     });
   })
 });
-
-// module.exports = prompt(question).then(({name, alias, description, author, emailprefix}) => {
-//   const folderName = `${moduleName}-${name}`;
-//   const templateName = template;
-//   const gitPlace = tplList[templateName]['place'];
-//   const gitBranch = tplList[templateName]['branch'];
-//   const spinner = ora('Downloading please wait...');
-//   spinner.start();
-
-//   // 作者的前缀信息
-//   const prefixInfomation = `
-//   /*
-//   * --------------------------------------------
-//   * @name ${folderName} / ${alias}
-//   * @desription ${description}
-//   * @author ${author} ${emailprefix ? (`${emailprefix}@corp.netease.com`) : ''}
-//   * --------------------------------------------
-//   */
-
-// `
-//   download(`${gitPlace}${gitBranch}`, `./${folderName}`, (err) => {
-//     if (err) {
-//       console.log(chalk.red(err))
-//       process.exit()
-//     }
-    
-//     try {
-//       // 读取index文件，插入作者信息
-//       const data = fs.readFileSync(`./${folderName}/index.js`, 'utf8');
-//       const updatedata = prefixInfomation + data;
-//       fs.writeFileSync(`./${folderName}/index.js`, updatedata, 'utf8');
-
-//       // 读取meta文件，修改内容
-//       let meta = fs.readFileSync(`./${folderName}/meta.conf`, 'utf8');
-      
-//       meta = JSON.parse(meta);
-//       meta.name = name;
-//       meta.url = name;
-//       meta.alias = alias;
-//       const updatemeta = JSON.stringify(meta, null, 2);
-//       fs.writeFileSync(`./${folderName}/meta.conf`, updatemeta, 'utf8');
-
-//       spinner.stop();
-//       console.log(chalk.green('project init successfully!'))
-//       console.log(`
-//         ${chalk.yellow('foldername: ') + chalk.bgWhite.black(`${folderName}`)}
-//       `);
-//     } catch(err) {
-//       spinner.stop();
-//       console.log(err);
-//       return;
-//     }
-//   });
-// });
