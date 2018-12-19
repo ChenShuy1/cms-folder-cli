@@ -40,13 +40,13 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
     const gitBranch = tplList[templateName]['branch'];
     // 作者的前缀信息
     const prefixInfomation = `
-    /*
-    * --------------------------------------------
-    * @name ${folderName} / ${alias}
-    * @desription ${description ? description : ''}
-    * @author ${author} ${emailprefix ? (`(${emailprefix}@corp.netease.com)`) : ''}
-    * --------------------------------------------
-    */
+/*
+* --------------------------------------------
+* @name ${folderName} / ${alias}
+* @desription ${description ? description : ''}
+* @author ${author} ${emailprefix ? (`(${emailprefix}@corp.netease.com)`) : ''}
+* --------------------------------------------
+*/
 
 `;
     // 判断文件夹是否存在
