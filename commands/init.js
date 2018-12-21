@@ -75,6 +75,7 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
         meta.name = name;
         meta.url = name;
         meta.alias = alias;
+        meta.privilegeCode = `module_${moduleName}_${parent ? `${parent}_` : ''}_${name}`;
         const updatemeta = JSON.stringify(meta, null, 2);
         fs.writeFileSync(`./${folderName}/meta.conf`, updatemeta, 'utf8');
 
