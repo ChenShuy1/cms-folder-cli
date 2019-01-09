@@ -6,5 +6,9 @@
     "secondary-folder": {
         "place": "chenshy39/cms-template",
         "branch": "#secondary-folder"
+    },
+    "table-component": {
+        "place": "chenshuyi39/cms-template",
+        "branch": "#table-component"
     }
 }

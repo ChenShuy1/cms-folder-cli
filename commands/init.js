@@ -8,7 +8,7 @@ const path = require('path')
 
 const tplList = require(`${__dirname}/../templates`)
 
-const { question, getInfoQuestion } = require(`${__dirname}/../question`);
+const { question, getInfoQuestion } = require(`${__dirname}/../questions/init_question`);
 
 module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
   
@@ -75,7 +75,7 @@ module.exports = prompt(getInfoQuestion).then(({moduleName, template}) => {
         meta.name = name;
         meta.url = name;
         meta.alias = alias;
-        meta.privilegeCode = `module_${moduleName}_${parent ? `${parent}_` : ''}_${name}`;
+        meta.privilegeCode = `module_${moduleName}${parent ? `_${parent}` : ''}_${name}`;
         const updatemeta = JSON.stringify(meta, null, 2);
         fs.writeFileSync(`./${folderName}/meta.conf`, updatemeta, 'utf8');
 

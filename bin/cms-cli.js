@@ -16,6 +16,13 @@ program.command('init')
     require(res('init'))
   })
 
+program.command('table')
+  .description('新建增删查改表格')
+  .alias('t')
+  .action(() => {
+    require(res('table'))
+  })
+
 program
   .command('*')
   .action(function(env){

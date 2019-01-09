@@ -1,8 +1,8 @@
 const fs = require('fs')
 
 const defaultName = 'defaultfolder'
-const tplList = require(`${__dirname}/templates`)
-const moduleList = require(`${__dirname}/modules`)
+const tplList = require(`${__dirname}/../templates`)
+const moduleList = require(`${__dirname}/../modules`)
 const tplLists = Object.keys(tplList) || [];
 
 exports.getInfoQuestion = [
